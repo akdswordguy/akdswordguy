@@ -1,10 +1,9 @@
 
-//mongoose password is 3k8LRm74PKNcShRl
 
 
 const mongoose = require('mongoose');
 
-const mongoURI = 'mongodb+srv://akdelite:3k8LRm74PKNcShRl@cluster0.t0tfwj8.mongodb.net/loginn'; 
+const mongoURI = 'mongodb+srv://akdelite:<password>@cluster0.t0tfwj8.mongodb.net/loginn'; 
 mongoose.connect(mongoURI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
