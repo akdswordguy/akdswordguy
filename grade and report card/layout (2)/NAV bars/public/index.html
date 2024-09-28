@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Report Card</title>
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <!-- Upper Bar -->
+    <div class="upper-bar">
+        <div class="search-icon">
+            <a href="#" aria-label="Search"><i class="fas fa-search"></i></a>
+        </div>
+        <div class="upper-bar-icons">
+            <a href="#" aria-label="Settings"><i class="fas fa-cog"></i></a>
+            <a href="#" aria-label="Announcements"><i class="fas fa-bell"></i></a>
+            <a href="#" aria-label="Account"><i class="fas fa-user"></i></a>
+        </div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="images/logo.png" alt="Logo">
+        </div>
+
+        <span>|<a href="#">
+            <i class="fa-solid fa-house"></i> Home Page</a>
+        </span>
+
+        <br><br><br>
+        <p>FACULTY</p>
+        <ul class="h">
+            <li><a href="#">Faculty Profile</a></li>
+            <li><a href="#">Faculty Leave Application</a></li>
+        </ul>
+
+        <br><br>
+        <p>STUDENT RELATED</p>
+        <ul class="h">
+            <li><a href="#">Virtual Class</a></li>
+            <li><a href="#">Attendance Management</a></li>
+            <li><a href="#">Exam Room Allocation</a></li>
+            <li><a href="#">Student Report Card</a></li>
+            <li><a href="#">Schedule Management</a></li>
+            <li><a href="#">Student Assignments</a></li>
+        </ul>
+
+        <br><br><br>
+        <span><a href="#">
+            <i class="fas fa-arrow-left"></i> Log out
+        </a></span>
+    </div>
+
+    <button class="toggle-btn" id="toggle-btn"><i class="fa-solid fa-bars"></i></button>
+
+    <main class="main-content">
+        <header>
+            <h1>Student Report Card</h1>
+        </header>
+
+        <!-- Report Card Form -->
+        <div class="report-container">
+            <form id="report-card-form">
+                <!-- Exam and Class Information -->
+                <label for="exam">Select Exam:</label>
+                <select id="exam">
+                    <option value="half_yearly">Half Yearly</option>
+                    <option value="end_exam">End Exam</option>
+                </select>
+             
+                <label for="class">Select Class:</label>
+                <select id="class">
+                    <option value="Class10A">Class 10 A</option>
+                    <option value="Class9B">Class 9 B</option>
+                </select>
+             
+                <label for="rollnumber">Select Roll Number:</label>
+                <select id="rollnumber"></select>
+             
+                <label for="name">Name:</label>
+                <input type="text" id="name" readonly />
+
+                <label for="dob">Date of Birth:</label>
+                <input type="text" id="dob" readonly />
+
+                <label for="fathers_name">Father's Name:</label>
+                <input type="text" id="fathers_name" readonly />
+
+                <label for="mothers_name">Mother's Name:</label>
+                <input type="text" id="mothers_name" readonly />
+
+                <!-- Table for Subjects and Grades -->
+                <div class="subjects-container">
+                    <table id="subjects-table">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Grade</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subjects-body">
+                            <tr>
+                                <td><input type="text" class="subject-name" placeholder="Enter Subject" required></td>
+                                <td><input type="text" class="subject-grade" placeholder="Enter Grade" required></td>
+                                <td><button type="button" class="remove-row">Remove</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button type="button" id="add-subject-btn">Add Subject</button>
+                </div>
+
+                <button type="submit">Submit Report Card</button>
+            </form>
+        </div>
+
+        <aside class="right-sidebar">
+            <div class="calendar-container">
+                <label for="calendar">Calendar:</label>
+                <input type="date" id="calendar">
+            </div>
+            <h2>Faculty Members</h2>
+            <ul>
+                <li>Francis Tran</li>
+                <li>Ellison Melodous</li>
+                <li>Katherine Webster</li>
+                <li>Amber Carey</li>
+            </ul>
+        </aside>
+    </main>
+
+    <script>
+        // Fetch roll numbers from MongoDB based on class selection
+        document.getElementById('class').addEventListener('change', async function() {
+            const selectedClass = this.value;
+            try {
+                const response = await fetch(`/api/students/getRollNumbers?class=${selectedClass}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch roll numbers');
+                }
+
+                const rollNumbers = await response.json();
+                const rollnumberSelect = document.getElementById('rollnumber');
+                rollnumberSelect.innerHTML = '';
+                rollNumbers.forEach(roll => {
+                    const option = document.createElement('option');
+                    option.value = roll;
+                    option.text = roll;
+                    rollnumberSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Fetch student details based on selected roll number
+        document.getElementById('rollnumber').addEventListener('change', async function() {
+            const rollnumber = this.value;
+            const selectedClass = document.getElementById('class').value;
+            try {
+                const response = await fetch(`/api/students/getStudentDetails?class=${selectedClass}&rollnumber=${rollnumber}`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch student details');
+                }
+
+                const student = await response.json();
+
+                document.getElementById('name').value = student.name || '';
+                document.getElementById('dob').value = student.date_of_birth || '';
+                document.getElementById('fathers_name').value = student.fathers_name || '';
+                document.getElementById('mothers_name').value = student.mothers_name || '';
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        // Add new subject row
+        document.getElementById('add-subject-btn').addEventListener('click', function() {
+            const tableBody = document.getElementById('subjects-body');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" class="subject-name" placeholder="Enter Subject" required></td>
+                <td><input type="text" class="subject-grade" placeholder="Enter Grade" required></td>
+                <td><button type="button" class="remove-row">Remove</button></td>
+            `;
+            tableBody.appendChild(newRow);
+        });
+
+        // Remove subject row
+        document.getElementById('subjects-table').addEventListener('click', function(e) {
+            if (e.target.classList.contains('remove-row')) {
+                e.target.parentElement.parentElement.remove();
+            }
+        });
+
+        // Submit the report card form
+        document.getElementById('report-card-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const subjects = [];
+            document.querySelectorAll('.subject-name').forEach((subjectName, index) => {
+                const subjectGrade = document.querySelectorAll('.subject-grade')[index].value;
+                subjects.push({
+                    subjectName: subjectName.value,
+                    grade: subjectGrade
+                });
+            });
+
+            const reportData = {
+                rollnumber: document.getElementById('rollnumber').value,
+                class: document.getElementById('class').value,
+                exam: document.getElementById('exam').value,
+                subjects: subjects
+            };
+
+            try {
+                const response = await fetch('/api/students/submitReportCard', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(reportData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to submit report card');
+                }
+
+                alert('Report card submitted successfully');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

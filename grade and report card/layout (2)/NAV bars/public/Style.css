@@ -1,0 +1,200 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    display: flex;
+
+}
+
+/* Upper bar styles */
+.upper-bar {
+    background-color: #fff;
+    color: #333;
+    padding: 10px 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 10;
+    left: 260px; /* Adjusted for the width of the sidebar */
+    right: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Search icon styles */
+.upper-bar .search-icon a {
+    color: #333;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.upper-bar .search-icon a:hover {
+    color: #333;
+}
+
+/* Upper bar icons styles */
+.upper-bar .upper-bar-icons a {
+    margin: 0 10px;
+    color: #333;
+    font-size: 1.2em;
+    text-decoration: none;
+}
+
+.upper-bar .upper-bar-icons a:hover {
+    color: #333;
+}
+
+
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    transition: all 0.3s ease;
+    overflow-y:auto;
+    max-height:100%;
+}
+
+.logo {
+    display: flex;
+    margin-bottom: 20px;
+    margin-left: -55px;
+  
+}
+
+.logo img {
+    max-width: 300px;
+}
+
+
+a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+
+.h{
+    list-style-type: none;
+
+}
+.h li {
+    padding-bottom: 15px;
+   
+}
+
+
+.toggle-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;
+    background-color: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: none;
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 250px; /* Adjusted to the width of the sidebar */
+    margin-top: 50px; /* Space for the upper bar */
+    padding: 20px;
+    flex: 1;
+    overflow: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+/* Search section styles */
+.search-section {
+    margin: 20px;
+}
+
+.search-field {
+    margin-bottom: 15px;
+}
+
+.search-field label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.search-field input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-field input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+
+
+/* Right Sidebar Styling */
+.right-sidebar {
+    width: 250px; /* Adjust width as needed */
+    padding: 20px;
+    background-color: #f4f4f4; /* Light grey background for visibility */
+    border-left: 2px solid #ddd; /* Border to separate it from the main content */
+    position: fixed; /* Fix it to the side of the viewport */
+    right: 0;
+    top: 0;
+    height: 100%;
+    overflow-y: auto; /* Allows scrolling if content overflows */
+}
+
+.calendar-container {
+    margin-bottom: 20px; /* Space below the calendar */
+}
+
+#calendar {
+    width: 100%; /* Make the calendar input take up the full width */
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc; /* Light border for the input */
+}
+
+/* Faculty Members List Styling */
+.right-sidebar h2 {
+    margin-top: 0;
+}
+
+.right-sidebar ul {
+    list-style-type: none; /* Remove bullets from list */
+    padding: 0;
+}
+
+.right-sidebar ul li {
+    margin-bottom: 10px; /* Space between list items */
+}
+
+
+.report-container{
+    background-color: #007bff;
+    height: 500px;
+    width: 600px;
+}
