@@ -16,6 +16,5 @@
 
 <p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=akdswordguy&show_icons=true&locale=en" alt="akdswordguy" /></p>
 
-<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=akdswordguy&" alt="akdswordguy" /></p>
 
 
